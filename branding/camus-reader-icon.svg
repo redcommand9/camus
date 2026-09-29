@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72">
+  <rect x="0" y="0" width="108" height="108" fill="#0D0D0F"/>
+  <path fill="#DEC6AC" d="M51.8,27.54 L45.47,25.5 L50.4,29.96 z"/>
+  <path fill="#DEC6AC" d="M53.96,26.4 L49.5,21.47 L51.54,27.8 z"/>
+  <path fill="#DEC6AC" d="M56.4,26.5 L55,20 L53.6,26.5 z"/>
+  <path fill="#DEC6AC" d="M58.46,27.8 L60.5,21.47 L56.04,26.4 z"/>
+  <path fill="#DEC6AC" d="M59.6,29.96 L64.53,25.5 L58.2,27.54 z"/>
+  <path fill="#F2EEE8" d="M30,112 L47,112 L61,64 L50.5,61.5 z"/>
+  <path fill="#F2EEE8" d="M52.2,54.5 h6.1 a3.2,3.2 0 0 1 3.2,3.2 v5.1 a3.2,3.2 0 0 1 -3.2,3.2 h-6.1 a3.2,3.2 0 0 1 -3.2,-3.2 v-5.1 a3.2,3.2 0 0 1 3.2,-3.2 z" transform="rotate(12 55.25 60.25)"/>
+  <path fill="#DEC6AC" d="M35.9,46.9 h38.2 a1,1 0 0 1 1,1 v3.7 a1,1 0 0 1 -1,1 h-38.2 a1,1 0 0 1 -1,-1 v-3.7 a1,1 0 0 1 1,-1 z"/>
+  <path fill="#DEC6AC" d="M38.9,39.4 h32.2 a1,1 0 0 1 1,1 v3.7 a1,1 0 0 1 -1,1 h-32.2 a1,1 0 0 1 -1,-1 v-3.7 a1,1 0 0 1 1,-1 z" transform="rotate(-2.5 55 42.25)"/>
+  <path fill="#DEC6AC" d="M37.9,31.3 h33.2 a1,1 0 0 1 1,1 v3.7 a1,1 0 0 1 -1,1 h-33.2 a1,1 0 0 1 -1,-1 v-3.7 a1,1 0 0 1 1,-1 z" transform="rotate(2.5 54.5 34.15)"/>
+</svg>

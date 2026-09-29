@@ -74,6 +74,7 @@ compose.desktop {
             linux {
                 menuGroup = "Office"
                 appCategory = "Office"
+                iconFile.set(project.file("src/desktopMain/resources/camus-reader.png"))
             }
         }
     }
