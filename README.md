@@ -3,40 +3,30 @@
 The Android app is a fully native Jetpack Compose reader: a document picker, optional
 password-based encryption for local reading data, real PDF rendering via Android's own
 `PdfRenderer`, and a from-scratch EPUB parser/paginator that renders chapters with plain Compose
-text and images. **There is no WebView, no epub.js, and no pdf.js anywhere in the Android app.**
-Library, Settings, Gutenberg catalog search, bookmarks, and two-sided inserted "tear sheets" are
+text and images. Library, Settings, Gutenberg catalog search, bookmarks, and two-sided inserted "tear sheets" are
 all native Compose screens shared with the Linux desktop target (`composeApp/src/commonMain`).
-
-This replaces an earlier build that bundled a local copy of the Camus Reader mobile website
-(`web-src/`, adapted from a separate `folio-mobile` website project) and displayed it inside a
-`WebView`, with a small JavaScript bridge for local storage and file access. That WebView-hosted
-shell (`AndroidWebApp.kt`, `NativeWebStore.kt`, and the bundled `assets/web` build) has been
-removed. `web-src/` is no longer built or loaded by the app; it's left in place only in case it's
-still wanted for a separate, standalone web deployment - it has no bearing on what ships in the
-APK.
 
 Encryption is off by default. In Settings → Profile & vault you can see whether device encryption
 is on; turning it on or off currently requires creating/removing the local profile from the first
-unlock screen (a dedicated in-Settings toggle for switching mid-session, matching the old
-website's flow, hasn't been ported yet - see "Known gaps" below). When it's on, the library,
-reading positions, bookmarks, and inserted-sheet contents are encrypted with AES-GCM, with the key
-derived via PBKDF2-HMAC-SHA256. The original PDF and EPUB files themselves are never moved,
-copied, or modified - Camus Reader only keeps a persistable read permission to the file the system
-document picker returned. App backup is disabled, and an encrypted profile locks when the app
-moves to the background (except while the document picker is open). Saves are debounced and
-flushed in the background, with pending writes forced through when the app backgrounds or locks.
+unlock screen. When it's on, the library, reading positions, bookmarks, and inserted-sheet contents 
+are encrypted with AES-GCM, with the key derived via PBKDF2-HMAC-SHA256. The original PDF and EPUB 
+files themselves are never moved, copied, or modified - Camus Reader only keeps a persistable read
+permission to the file the system document picker returned. App backup is disabled, and an encrypted 
+profile locks when the app moves to the background (except while the document picker is open). Saves 
+are debounced and flushed in the background, with pending writes forced through when the app backgrounds or 
+locks.
 
 Add book uses Android's document picker (PDF or EPUB) and adds the file to the library; tapping
 its cover opens it.
 
 ## Pull the Guten (PTG) catalog
 
-PTG searches a copy of Project Gutenberg's own catalog (`pg_catalog.csv.gz`, ~78,000 books) that
-Camus Reader keeps in a SQLite database on the device (`files/gutenberg/catalog.db`, ~17 MB). Searching
+PTG searches a copy of Project Gutenberg's own catalog (`pg_catalog.csv.gz`) that
+Camus Reader keeps in a SQLite database on the device (`files/gutenberg/catalog.db`). Searching
 never touches the network; the network is used only to download the catalog the first time PTG is
 opened and to check for a newer one when the copy is over a week old (a conditional request, so an
 unchanged catalog costs nothing). PTG stays behind the Settings switch, so with it off Camus Reader never
-connects. The old dependency on a third-party search server is gone.
+connects.
 
 - **Index**: `GutenbergIndex.kt` builds the database (books table, an FTS4 full-text table over
   title, credited people, subjects and bookshelves, a word list for spelling suggestions, language and
@@ -55,6 +45,8 @@ connects. The old dependency on a third-party search server is gone.
   tagged as a PTG book. Removing it from the library deletes that copy; you can add it again. With the
   option off, "Download options" opens the book's page in the external browser and you import the file
   yourself via "Add book". Camus Reader only downloads a book when you tap it, one at a time.
+- **Choice**: App gives you choice to block PTG completely so your app can not send any network request at all.
+  To do this you must turn off PTG from settings. 
 
 ## Known gaps versus the website
 
@@ -70,11 +62,6 @@ epub.js/pdf.js-based reader. In particular, it does not (yet) have:
 PDF rendering, page colors/night mode, zoom, bookmarks, inserted sheets, and the EPUB "Chapters"
 jump list are implemented and wired end-to-end.
 
-**This has not been compiled or run** - the sandbox this was written in has no Android SDK and no
-network access to fetch Gradle/AGP/Compose dependencies. Build it in Android Studio (or via
-`./gradlew :composeApp:assembleDebug`) and test on a device or emulator before relying on it;
-see "Areas worth double-checking" in the accompanying summary.
-
 ## Build the Android app
 
 Install JDK 17 and Android SDK Platform 36 with Build Tools 36.0.0. Point `ANDROID_HOME` to that
@@ -88,7 +75,4 @@ The APK will be at `composeApp/build/outputs/apk/debug/composeApp-debug.apk`.
 
 ## Linux
 
-`./gradlew :composeApp:desktopRun` runs the separate desktop shell, which shares the same native
-library/reader UI (`composeApp/src/commonMain`) but does not yet have real PDF/EPUB rendering
-wired in (see the placeholder in `CamusReaderApp.kt`'s `BookPagePreview`). See
-[LINUX_TAR_PLAN.md](LINUX_TAR_PLAN.md) for its staged release plan.
+I am working on the rpm and tar.gz.
