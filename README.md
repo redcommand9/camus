@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="branding/camus-reader-icon.svg" alt="Camus Reader icon" width="128">
+</p>
+
 # Camus Reader Android and Linux source
 
 The Android app is a fully native Jetpack Compose reader: a document picker, optional
