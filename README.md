@@ -3,17 +3,10 @@
 The Android app is a fully native Jetpack Compose reader: a document picker, optional
 password-based encryption for local reading data, real PDF rendering via Android's own
 `PdfRenderer`, and a from-scratch EPUB parser/paginator that renders chapters with plain Compose
-text and images. **There is no WebView, no epub.js, and no pdf.js anywhere in the Android app.**
+text and images.
 Library, Settings, Gutenberg catalog search, bookmarks, and two-sided inserted "tear sheets" are
 all native Compose screens shared with the Linux desktop target (`composeApp/src/commonMain`).
 
-This replaces an earlier build that bundled a local copy of the Camus Reader mobile website
-(`web-src/`, adapted from a separate `folio-mobile` website project) and displayed it inside a
-`WebView`, with a small JavaScript bridge for local storage and file access. That WebView-hosted
-shell (`AndroidWebApp.kt`, `NativeWebStore.kt`, and the bundled `assets/web` build) has been
-removed. `web-src/` is no longer built or loaded by the app; it's left in place only in case it's
-still wanted for a separate, standalone web deployment - it has no bearing on what ships in the
-APK.
 
 Encryption is off by default. In Settings → Profile & vault you can see whether device encryption
 is on; turning it on or off currently requires creating/removing the local profile from the first
@@ -36,7 +29,7 @@ Camus Reader keeps in a SQLite database on the device (`files/gutenberg/catalog.
 never touches the network; the network is used only to download the catalog the first time PTG is
 opened and to check for a newer one when the copy is over a week old (a conditional request, so an
 unchanged catalog costs nothing). PTG stays behind the Settings switch, so with it off Camus Reader never
-connects. The old dependency on a third-party search server is gone.
+connects.
 
 - **Index**: `GutenbergIndex.kt` builds the database (books table, an FTS4 full-text table over
   title, credited people, subjects and bookshelves, a word list for spelling suggestions, language and
@@ -55,25 +48,7 @@ connects. The old dependency on a third-party search server is gone.
   tagged as a PTG book. Removing it from the library deletes that copy; you can add it again. With the
   option off, "Download options" opens the book's page in the external browser and you import the file
   yourself via "Add book". Camus Reader only downloads a book when you tap it, one at a time.
-
-## Known gaps versus the website
-
-The native EPUB renderer intentionally does not attempt pixel-parity with the website's
-epub.js/pdf.js-based reader. In particular, it does not (yet) have:
-- Per-book CSS/font fidelity (native reader uses one consistent serif typography, similar to
-  most native e-readers)
-- Text-selection highlighting/annotations addressed by EPUB CFI
-- Continuous (non-chapter-boundary) page reflow - each chapter currently starts on a fresh page
-- A Settings toggle to turn device encryption on/off mid-session without recreating the profile
-- Zen mode's animated progress glow and double-page "spread" view
-
-PDF rendering, page colors/night mode, zoom, bookmarks, inserted sheets, and the EPUB "Chapters"
-jump list are implemented and wired end-to-end.
-
-**This has not been compiled or run** - the sandbox this was written in has no Android SDK and no
-network access to fetch Gradle/AGP/Compose dependencies. Build it in Android Studio (or via
-`./gradlew :composeApp:assembleDebug`) and test on a device or emulator before relying on it;
-see "Areas worth double-checking" in the accompanying summary.
+  
 
 ## Build the Android app
 
@@ -88,7 +63,4 @@ The APK will be at `composeApp/build/outputs/apk/debug/composeApp-debug.apk`.
 
 ## Linux
 
-`./gradlew :composeApp:desktopRun` runs the separate desktop shell, which shares the same native
-library/reader UI (`composeApp/src/commonMain`) but does not yet have real PDF/EPUB rendering
-wired in (see the placeholder in `CamusReaderApp.kt`'s `BookPagePreview`). See
-[LINUX_TAR_PLAN.md](LINUX_TAR_PLAN.md) for its staged release plan.
+I am working on porting this app to Linux.
